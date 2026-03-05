@@ -24,10 +24,10 @@ end
 #--------------------------------------------------------------------------------
 # Main
 #--------------------------------------------------------------------------------
-function ent_evo(;L=128, γ=1.0, dt=0.05, T=500, a=1, config="Z2", p::Integer=20)
+function ent_evo(;L=128, γ=1.0, dt=0.05, T=500, config="Z2", p::Integer=20)
     N = round(Int, T/dt)
     evo = evo_operator(Hermitian(hopping_ham(L, PBC=true)), dt)
-    l1, l2 = nodal_jump(L; a)
+    l1, l2 = nodal_jump(L;)
     s = FreeFermionState(L=L, N=L÷2, config=config)
     EE = zeros(N÷p)
     hL = L÷2
@@ -48,8 +48,8 @@ function ent_evo(;L=128, γ=1.0, dt=0.05, T=500, a=1, config="Z2", p::Integer=20
     end
 end
 
-Ls = round.(Int, 10 .^ (1:0.1:2.5)) .÷ 2 .* 2
+Ls = [200]
 for L in Ls
-    ent_evo(;L)
+    ent_evo(;L,T=1000)
 end
 
